@@ -20,9 +20,17 @@ public class youtube {
 			proc = rt.exec("/usr/local/bin/youtube-dl -f 140 -o "
 					+ output_file_name + ".%(ext)s " + youtube_url);
 		} else if (isWindows()) {
-			proc = rt.exec("DEL " + output_file_name + ".m4a");
+			try {
+			proc = rt.exec("del " + output_file_name + ".m4a");
 			proc = rt.exec("youtube-dl.exe -f 140 -o " + output_file_name
 					+ ".%(ext)s " + youtube_url);
+			}
+			catch(Exception e){
+			proc = rt.exec("youtube-dl.exe -f 140 -o " + output_file_name
+					+ ".%(ext)s " + youtube_url);	
+				
+			}
+
 		}
 		// get info
 		getCommandLogs(proc);
@@ -39,7 +47,9 @@ public class youtube {
 					+ ".m4a -acodec libmp3lame -ab 128k " + output_file_name
 					+ ".mp3");
 		} else if (isWindows()) {
-			
+			proc = rt.exec("ffmpeg.exe -i " + input_file_name
+					+ ".m4a -acodec libmp3lame -ab 128k " + output_file_name
+					+ ".mp3");
 		}
 		// get info
 		getCommandLogs(proc);
